@@ -72,7 +72,7 @@ def generate_report(scripts):
 
 def main():
     check_root()
-    scripts = ["SA01-R001.sh", "SA01-R002.sh", "SA01-R003.sh"]  # 실행할 스크립트 목록
+    scripts = ["SA01-R001.sh", "SA02-R002.sh","SA03-R003.sh"]  # 실행할 스크립트 목록
     generate_report(scripts)
     print("Vulnerability check completed and report generated.")
 
