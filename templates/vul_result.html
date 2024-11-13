@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+{% block title %}ADSentinel - Vulnerability Detail{% endblock %}
+{% block content %}
+
+<h2>{{ vulc_record.VulC_Title }}</h2>
+
+{% if adsentinel_results %}
+    <div class="adsentinel-results">
+        <h3>ADSentinel Scan Results</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>VulC ID</th>
+                    <th>Status</th>
+                    <th>Summary</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for result in adsentinel_results %}
+                    <tr>
+                        <td>{{ result.vulc_id|default:"N/A" }}</td>
+                        <td>{{ result.status|default:"N/A" }}</td>
+                        <td>{{ result.details|default:"N/A" }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% else %}
+    <p>해당 취약점에 대한 ADSentinel 검사 결과가 없습니다.</p>
+{% endif %}
+
+<div class="vulnerability-detail">
+    <table>
+        <tr>
+            <th>ID</th>
+            <td>{{ vulc_record.VulC_Id }}</td>
+        </tr>
+        <tr>
+            <th>Description</th>
+            <td>{{ vulc_record.VulC_Des }}</td>
+        </tr>
+        <tr>
+            <th>Risk Level</th>
+            <td>{{ vulc_record.VulC_Level }}</td>
+        </tr>
+        <tr>
+            <th>Recommendation</th>
+            <td>{{ vulc_record.VulC_Check|default:"N/A" }}</td>
+        </tr>
+        <tr>
+            <th>Category</th>
+            <td>{{ vulc_record.VulC_Cate|default:"N/A" }}</td>
+        </tr>
+        <tr>
+            <th>Security Risk</th>
+            <td>{{ vulc_record.VulC_SecRisk|default:"N/A" }}</td>
+        </tr>
+        <tr>
+            <th>Target Service</th>
+            <td>{{ vulc_record.VulC_TgtSrv|default:"N/A" }}</td>
+        </tr>
+        <tr>
+            <th>Implementation</th>
+            <td>{{ vulc_record.VulC_Imp|default:"N/A" }}</td>
+        </tr>
+        <tr>
+            <th>Vulnerability Script</th>
+            <td>{{ vulc_record.VulC_Script|default:"N/A" }}</td>
+        </tr>
+    </table>
+</div>
+
+{% endblock %}
+

@@ -1,0 +1,438 @@
+/* 기본 스타일 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Roboto Slab','Noto Sans KR', 'Roboto',sans-serif;
+}
+
+
+body {
+    background-color: #fff;
+    margin: 0;
+    padding: 0;
+    color: #333;
+}
+a {
+    text-decoration: none;
+    color: inherit;
+    outline: none;
+}
+
+a:active, a:focus {
+    outline: none;
+}
+
+ul, ol {
+    list-style: none;}
+    
+    
+header {
+    margin-bottom:80px;
+    background-color: #000;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+header .headerWrap {
+	width:95%;
+	margin:0 auto;
+}
+
+.logo {
+
+    color: #1ea7fd;
+    font-size: 1.8rem;
+    font-weight: 700;
+    width: 20%;
+    float: left;
+}
+
+nav{
+ line-height : 40px;
+}
+
+
+
+
+header h1 {
+    color: #1ea7fd;
+    font-size: 1.8rem;
+    margin: 0;
+    font-weight: 700;
+}
+
+
+
+header nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+}
+
+header nav ul li {
+    margin: 0 15px;
+}
+
+header nav ul li a {
+    text-decoration: none;
+    color: #1ea7fd;
+    font-weight: 500;
+    transition: color 0.3s;
+}
+
+header nav ul li a:hover {
+    color: #9b59b6;
+}
+
+header nav ul li a:active, header nav ul li a:focus {
+    outline: none;
+    color: #1ea7fd;
+}
+
+main {
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 20px;
+}
+
+
+
+
+footer {
+    background-color: #000;
+    color: #fff;
+    padding: 30px;
+    text-align: center;
+    margin-top:200px;
+}
+
+.notification-banner {
+    background-color: #e74c3c;
+    color: #fff;
+    padding: 10px;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    text-align: center;
+    z-index: 1000;
+}
+
+.notification-banner.hidden {
+    display: none;
+}
+
+.close-button {
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 1.2rem;
+    cursor: pointer;
+    margin-left: 10px;
+}
+
+
+/* 메인 스타일 */
+
+.container {
+    width: 95%;
+    margin: 0 auto;
+}
+
+
+main {
+    max-width: 1200px;
+    margin: 20px auto;
+    padding: 20px;
+}
+
+section {
+    margin: 80px 0;
+}
+
+section h2 {
+    font-size: 2em;
+    margin-bottom: 15px;
+    color: #000;
+    display: inline-block;
+    
+}
+
+.btn.more{
+	background:#cacaca;;
+	padding:2px 5px;
+	margin-left: 6px;
+	color:#fff;
+
+}
+
+.title{
+	font-size:3rem;
+	color:#000;
+}
+
+/* 차트 및 테이블 플레이스홀더 스타일 */
+.charts {
+    display: flex;
+    justify-content: space-around;
+    gap: 20px;
+    margin-top: 15px;
+}
+
+.chart {
+    width: 45%;
+    height: 200px;
+    background-color: #eaeaea;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 8px;
+    font-weight: bold;
+    color: #666;
+}
+
+/* 테이블 플레이스홀더 스타일 */
+section p {
+    padding: 10px;
+    text-align: center;
+    color: #777;
+    font-style: italic;
+}
+
+/* 상태 텍스트 스타일 */
+.status {
+    font-weight: bold;
+    padding: 5px 10px;
+    border-radius: 4px;
+}
+
+.status.success {
+    color: #2e7d32;
+    background-color: #e8f5e9;
+}
+
+.status.warning {
+    color: #f57c00;
+    background-color: #fff3e0;
+    
+}
+
+.status.Danger {
+    color: #fff;
+    background-color: #d20020;
+    border : 1px solid black;
+    border-radius:15px;
+    padding:2px 20px;
+    margin-left:8px;
+}
+
+
+
+h1 {
+    font-size: 24px;
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.subtitle {
+    text-align: center;
+    font-size: 16px;
+    color: #777;
+    margin-bottom: 20px;
+}
+
+p.pstatus{
+padding:20px 0; font-size:1.2rem; margin : 20px 0 55px 0;
+
+}
+
+table  {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+    padding: 12px;
+    border-top: 1px solid #000;
+    border-bottom: 1px solid #000;
+    text-align: left;
+
+}
+
+th, td{
+    border-top: 1px solid #b5b5b5;
+    border-bottom: 1px solid #b5b5b5;
+
+}
+
+thead tr {
+	height:20px;
+	font-size:1.2rem;
+	color:#000;
+}
+
+tbody tr {
+	height:40px;
+
+}
+
+a.link {
+
+}
+
+a.link:hover {
+	color:#000;
+	font-weight:400;
+}
+
+
+
+.status.safe {
+    color: #4CAF50;
+    font-weight: bold;
+}
+
+.status.warning {
+    color: #FFA500;
+    font-weight: bold;
+}
+
+.status.danger {
+    color: #FF0000;
+    font-weight: bold;
+}
+
+.report-table tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.report-table tr:hover {
+    background-color: #f1f1f1;
+}
+
+
+/*********************************SCAN**************************/
+table.vul{
+	margin-bottom:80px;
+	margin-top:20px;
+
+}
+table.vul th{
+	width:25%;
+}
+table.vul thead tr{
+	height:30px;
+	font-size:1.1rem;
+}
+
+table.vul tbody tr{
+	height:50px;
+
+}
+
+table.vul.port th{
+width:25%;
+
+}
+
+table.vul.port ul{
+	padding:10px 0;
+}
+
+/********************ternimal******************/
+.terminal.xterm.xterm-dom-renderer-owner-1{
+	display:flex !important;
+}
+#terminal{
+    display: contents !important; /* 고정된 위치에서 벗어나게 설정 */
+    width: 100%; /* 너비를 페이지에 맞게 조정 */
+    max-height: 400px; /* 최대 높이를 설정해 스크롤 생성을 유도 */
+    overflow-y: auto; /* 내용이 많을 경우 스크롤이 생기도록 설정 */
+    margin-bottom: 20px; /* 아래쪽 여백을 추가하여 다른 콘텐츠와 간격을 둠 */
+    
+}
+
+
+
+/********************알림 배너 기본 스타일******************/
+/* 알림 배너 기본 스타일 */
+.notification-banner {
+    position: fixed;
+    top: -100px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #333;
+    color: #fff;
+    padding: 15px 25px;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    transition: top 0.5s ease-in-out;
+    width: fit-content;
+}
+
+
+/* 배너 숨기기 상태 */
+.hidden {
+    display: none;
+}
+
+/* 닫기 버튼 스타일 */
+.close-button {
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 1.2em;
+    margin-left: 15px;
+    cursor: pointer;
+}
+
+
+@keyframes fade-in-out {
+    0% { background-color: #333; }
+    50% { background-color: #555; }
+    100% { background-color: #333; }
+}
+
+/* 알림 배너 글자 강조 */
+.notification-banner span {
+    font-weight: bold;
+}
+
+/*****************message box********************/
+#stdout-container {
+    background-color: black;
+    color: #a8ff60;
+    padding: 20px;
+    width: 59%;
+    margin: 30px auto;
+    border-radius: 10px;
+    text-align: left;
+    font-size: 1rem;
+    max-height: 300px;
+    overflow-y: auto;
+    min-height: 300px;
+    margin-top:21px;
+}
+
+#stdout-container.explo{
+    margin:none;
+    border-radius: 0px;
+    min-height:80px;
+    width:100%;
+    margin-top:5px;
+
+}
+
+/***********************flag *************/
+.highlighted-log{
+
+ background:#ffd700;
+ margin:30px 0;
+ padding:20px 30px; 
+ color:#000;
+ font-size:1.3rem;
+
+}
+

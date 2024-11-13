@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block title %}Scan Page{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2>Last Reports</h2>
+    <table class="report-table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Status</th>
+                <th>Reports</th>
+                <th>Date</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for report in reports %}
+            <tr>
+                <td><a href="{{ report.report_link }}">{{ report.name }}</a></td>
+                <td>{{ report.status }}</td>
+                <td><a href="{{ report.report_link }}">1</a></td>
+                <td>{{ report.date|date:"Y.m.d H:i" }} UTC</td>
+                <td><a href="{% url 'delete_report' report.id %}" onclick="return confirm('Are you sure you want to delete this report?');">삭제</a></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+<div>
+{% endblock %}

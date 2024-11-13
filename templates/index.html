@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ADSentinel</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Noto+Sans+KR:wght@400;700&family=Roboto+Slab:wght@400;700&display=swap">
+    <style>
+        body {
+            font-family: 'Roboto Slab','Noto Sans KR', 'Roboto',sans-serif;
+            text-align: center;
+            background-color: #f7f8fc;
+            margin: 0;
+            padding: 0;
+        }
+        
+        h1 {
+            color: #1ea7fd;
+            font-size: 5rem;
+            margin-top: 115px;
+        }
+
+        label {
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        #ip_address {
+            width: 48%;
+            padding: 15px;
+            font-size: 1.5rem;
+            margin: 20px 0;
+            border: 2px solid #ccc;
+            border-radius: 30px;
+            font-weight:800;
+            font-family: 'Roboto Slab',sans-serif;
+            margin-right:1%
+        }
+        
+        button {
+            background-color: black;
+            color: white;
+            font-size: 1.5rem;
+            font-weight: bold;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        
+        button:hover {
+            background-color: #333;
+        }
+
+        #resultButton {
+            margin-top: 0px;
+            padding: 10px 25px;
+            border-radius: 30px;
+            font-size: 1rem;
+            background-color: grey;
+            color: white;
+            border: none;
+            cursor: not-allowed;
+        }
+
+        #resultButton.active {
+            background-color: #1ea7fd;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        
+        #stdout-container {
+            background-color: black;
+            color: #a8ff60;
+            padding: 20px;
+            width: 59%;
+            margin: 30px auto;
+            border-radius: 10px;
+            text-align: left;
+            font-size: 1rem;
+            max-height: 300px;
+            overflow-y: auto;
+            min-height: 300px;
+            margin-top:21px;
+        }
+
+        #resultButton {
+            margin-top: 0px;
+            padding: 10px 25px;
+            border-radius: 30px;
+            font-size: 1rem;
+        }
+
+        hr {
+            border: none;
+            height: 1px;
+            background-color: #ccc;
+            margin: 40px 0;
+        }
+    </style>
+    <script>
+        function runScan() {
+            const ip_address = document.getElementById('ip_address').value;
+            document.getElementById('ip_address').disabled = true;
+            document.getElementById('message').innerText = "검사 진행 중...";
+            document.getElementById('progress').innerText = "진행률: 0%";
+
+            let progress = 0;
+            const progressInterval = setInterval(() => {
+                if (progress < 100) {
+                    progress += 10;
+                    document.getElementById('progress').innerText = `진행률: ${progress}%`;
+                } else {
+                    clearInterval(progressInterval);
+                    document.getElementById('progress').innerText = "진행률: 100%";
+                    document.getElementById('resultButton').disabled = false;
+                    document.getElementById('resultButton').classList.add('active');
+                }
+            }, 1000);
+
+            fetch('/run_scan/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                    'X-CSRFToken': '{{ csrf_token }}'
+                },
+                body: `ip_address=${ip_address}`
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                clearInterval(progressInterval);
+                document.getElementById('progress').innerText = "진행률: 100%";
+                document.getElementById('message').innerText = data.message;
+                document.getElementById('stdout').innerText = data.stdout;
+                document.getElementById('stderr').innerText = data.stderr;
+                /*
+                document.getElementById('ip_address').disabled = false;
+                */
+                // "검사가 완료되었습니다" 메시지가 나타나면 버튼 활성화
+                if (data.message === ".") {
+                    const resultButton = document.getElementById("resultButton");
+                    resultButton.disabled = false;
+                    resultButton.classList.add('active');    
+                }
+            })
+            .catch(error => {
+                clearInterval(progressInterval);
+                document.getElementById('message').innerText = ".";
+                console.error('Error:', error);
+                document.getElementById('ip_address').disabled = false;
+                document.getElementById('progress').innerText = "";
+            });
+        }
+    </script>
+</head>
+<body>
+    <h1>ADSentinel</h1>
+    <div>
+        <label for="ip_address"></label>
+        <br>
+        <input type="text" id="ip_address" name="ip_address" placeholder="취약점 조사 IP를 입력해주세요" required>
+        <button onclick="runScan()">Start!</button>
+    </div>
+    <!-- 분석 결과 확인 버튼, 초기에는 비활성화 상태 -->
+    <button id="resultButton" onclick="location.href='{% url 'dashboard' %}'" disabled>분석 결과 확인</button>
+    
+    <div id="stdout-container"><h3 id="message"></h3><div id="progress"></div>
+        <pre id="stdout"></pre>
+    </div>
+
+
+</body>
+</html>
+

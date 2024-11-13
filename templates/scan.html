@@ -1,0 +1,135 @@
+{% extends 'base.html' %}
+
+{% block title %}Scan Page{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2 class="title">Scan Result</h2>
+    <p style="font-size:1.5rem; color:#000;">Current IP: <strong>{{ ip_address }}</strong></p>
+    <p class ="pstatus" >Status : <span class="status {{ status_class }}">{{ status }}</span></p>
+
+    <h2 class="section-title" style="margin-bottom:15px;">Vulnerability</h2>
+   <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Status</th>
+                <th>위험도</th>
+            </tr>
+        </thead>
+	<tbody>
+	    {% for result in adsentinel_results %}
+	    <tr>
+		<td>{{ result.vulc_id }}</td>
+		<!--
+		<td>{{ result.title }}</td>
+		-->
+		<td><a  class="link" href="{% url 'vul_result' result.vulc_id %}">{{ result.title |truncatechars:15}}</a></td>
+		<td>{{ result.summary |truncatechars:30}}</td>
+		<td>{{ result.status }}</td>
+		<td>{{ result.risk_level }}</td>
+	    </tr>
+	    {% endfor %}
+	</tbody>
+    </table>
+
+<h2 class="section-title">Port</h2>
+   <table class="vul port">
+        <tr>
+            <th>Open Ports</th>
+            <td>
+                <ul>
+                    {% for port in nmap_results.open_ports %}
+                    <li>{{ port.port }} - {{ port.service }}</li>
+                    {% endfor %}
+                </ul>
+            </td>
+        </tr>
+        <tr>
+            <th>Unknown Ports</th>
+            <td>
+                <ul>
+                    {% for port in nmap_results.unknown_ports %}
+                    <li>{{ port.port }} - {{ port.state }} ({{ port.service }})</li>
+                    {% endfor %}
+                </ul>
+            </td>
+        </tr>
+    </table>
+
+    <h2 class="section-title">Info detail</h2>
+
+   <table class="vul">
+        <tr>
+            <th>Service</th>
+            <td>{{ enum4linux_results.samba_version }}</td>
+        </tr>
+        <tr>
+            <th>OS</th>
+            <td>{{ enum4linux_results.target_os }}</td>
+        </tr>
+        <tr>
+            <th>Domain Name</th>
+            <td>{{ enum4linux_results.domain }}</td>
+        </tr>
+        <tr>
+            <th>Domain SID</th>
+            <td>{{ enum4linux_results.domain_sid }}</td>
+        </tr>
+        <tr>
+            <th>Known Users</th>
+            <td>{{ enum4linux_results.users|join:", " }}</td>
+        </tr>
+        <tr>
+            <th>password_policy</th>
+            <td>{{ formatted_password_policy|safe }}</td>
+        </tr>
+
+        <tr>
+            <th>full_output</th>
+            <td>
+		<div class="full-output" style="max-height: 300px; overflow-y: auto; border: 1px solid #ddd; padding: 10px;">
+			{{ formatted_full_output|safe }}
+		</div>
+            </td>
+        </tr>
+  
+   <table class="vul">
+        <h2>CVE Risk Results</h2>
+    {% if cve_risk_results %}
+        <ul>
+            {% for cve in cve_risk_results %}
+                <li>
+                    <a href="/cve_detail/{{ cve.CVE_name }}">{{ cve.CVE_name }}</a><br>
+                     <!--
+                    <strong>Categories:</strong> {{ cve.categories|join:", " }}<br>
+                    <strong>Details:</strong> {{ cve.CVE_Detail }}
+                    -->
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No CVE risk results found.</p>
+    {% endif %}
+     <h2>관련 cve</h2>
+ {% for cve in cve_results %}
+    <li>
+        <a href="/cve_detail/{{ cve.CVE_name }}">{{ cve.CVE_name }}</a><br>
+        <!--
+        <strong>Categories:</strong> {{ cve.categories }}<br>
+        <strong>Details:</strong> {{ cve.CVE_Detail }}<br>
+        <strong>Score Data:</strong>
+        <ul>
+            {% for score in cve.score_data %}
+            <li>{{ score }}</li>
+            {% endfor %}
+        </ul>
+        -->
+
+    </li>
+    {% endfor %}
+<div>
+{% endblock %}
+

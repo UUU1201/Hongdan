@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% block title %}Scan Page{% endblock %}
+
+{% block content %}
+    <div class="container">
+    <h2 class="title">Red Flag log</h2>
+
+        <!-- 최신 로그 강조 -->
+        <div id="latest-log" class="highlighted-log">
+            <p>Loading latest log...</p>
+        </div>
+
+        <!-- 이전 로그 리스트 -->
+        <div id="log-list">
+            <ul id="log-items">
+                <!-- 로그 항목들이 이곳에 추가됩니다. -->
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        // AJAX 요청으로 실시간 로그 업데이트
+        function fetchLatestLogs() {
+            fetch('/get_latest_logs/')
+                .then(response => response.json())
+                .then(data => {
+                    const logs = data.latest_logs.slice(0, 40); // 최신 로그 최대 50개까지만 표시;
+
+                    if (logs.length > 0) {
+                        // 최신 로그 강조 업데이트
+                        const latestLogDiv = document.getElementById('latest-log');
+                        const latestLog = logs[0];
+                        latestLogDiv.innerHTML = `<strong>Latest Log:</strong> ${latestLog.date} ${latestLog.time} - ${latestLog.message} from ${latestLog.from} to ${latestLog.to}`;
+
+                        // 전체 로그 업데이트
+                        const logItems = document.getElementById('log-items');
+                        logItems.innerHTML = logs.map(log => `<li>${log.date} ${log.time} - ${log.message} from ${log.from} to ${log.to}</li>`).join('');
+                    }
+                })
+                .catch(error => console.error('Error fetching logs:', error));
+        }
+
+        // 주기적으로 로그 업데이트 (5초마다)
+        setInterval(fetchLatestLogs, 2000);
+
+        // 페이지 로딩 시 첫 AJAX 요청
+        document.addEventListener('DOMContentLoaded', fetchLatestLogs);
+    </script>
+{% endblock %}
+

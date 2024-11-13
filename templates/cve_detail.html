@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+{% block title %}Scan Page{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <h1>CVE Detail: {{ cve_record.CVE_name }}</h1>
+        <section class="cve-detail-section">
+            <h2>Details</h2>
+            <div><a href="https://nvd.nist.gov/vuln/detail/{{ cve.CVE_name }}" target="_blank">link</a></div>
+            <table>
+                <tr>
+                    <th>CVE Name</th>
+                    <td>{{ cve_record.CVE_name }}</td>
+                </tr>
+                <tr>
+                    <th>Categories</th>
+                    <td>{{ cve_record.categories|join:", " }}</td>
+                </tr>
+                <tr>
+                    <th>CVSS Vector</th>
+                    <td>{{ cve_record.CVSS_Vector }}</td>
+                </tr>
+                <tr>
+                    <th>Score Data</th>
+			<td>
+			    {% if cve_record.score_data %}
+				Base Severity: {{ cve_record.Base_Severity }}<br>
+				Impact Score: {{ cve_record.Impact_Score }}<br>
+				Score Source: {{ cve_record.Score_Source }}
+			    {% else %}
+				No Score Data available.
+			    {% endif %}
+			</td>
+                </tr>
+                <tr>
+                    <th>Description</th>
+                    <td>{{ cve_record.CVE_Detail }}</td>
+                </tr>
+                <tr>
+                    <th>Affected Versions</th>
+                    <td>{{ cve_record.samba_version|join:", " }}</td>
+                </tr>
+            </table>
+        </section>
+        <div class="navigation">
+            <a href="/cve/" class="btn">Back to CVE Results</a>
+        </div>
+    </div>
+{% endblock %}

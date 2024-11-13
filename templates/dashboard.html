@@ -1,0 +1,158 @@
+{% extends 'base.html' %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+<style>
+.cvede th:nth-last-child(1){width:70%;}
+</style>
+    <main>
+
+    <h2 class="title">Dashboard</h2>
+    <p style="font-size:1.5rem; color:#000;">Current IP: <strong>{{ ip_address }}</strong></p>
+    <p class="pstatus">Status : <span class="status {{ status_class }}">{{ status }}</span></p>
+    <!--
+    <div class="charts">
+        <div class="chart pie-chart">[ Pie Chart Placeholder ]</div>
+        <div class="chart bar-chart">[ Bar Chart Placeholder ]</div>
+    </div>
+	-->
+
+        <section id="last-table">
+            <h2 class="section-title">Last Reports</h2>
+            <a href="/reports" class="btn more">More</a>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>domain</th>
+                        <th>samba_version</th>
+                        <th>Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% if last_reports %}
+                        {% for report in last_reports %}
+                            <tr>
+                                <td>scan of : {{ report.ip_address }}</td>
+                                <td>{{ report.enum4linux_results.domain }}</td>
+                                <td><a href="/reports/{{ report.id }}">{{ report.enum4linux_results.samba_version }}</a></td>
+                                <td>{{ report.timestamp }}</td>
+                            </tr>
+                        {% endfor %}
+                    {% else %}
+                        <tr>
+                            <td colspan="4">No reports available.</td>
+                        </tr>
+                    {% endif %}
+                </tbody>
+            </table>
+
+        </section>
+
+        <section id="last-table">
+            <h2 class="section-title">Red Flag</h2>
+            <a href="/red_flag" class="btn more">More</a>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Message</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% if red_flags %}
+                        {% for alert in red_flags %}
+                            <tr>
+                                <td>{{ alert.date }}</td>
+                                <td>{{ alert.message }}</td>
+                            </tr>
+                        {% endfor %}
+                    {% else %}
+                        <tr>
+                            <td colspan="2">No red flag alerts available.</td>
+                        </tr>
+                    {% endif %}
+                </tbody>
+            </table>
+        </section>
+
+        <section id="last-table">
+            <h2 class="section-title">Exploit</h2>
+            <a href="/exploit" class="btn more">More</a>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>description</th>
+          
+                    </tr>
+                </thead>
+                <tbody>
+		        
+		        <tr>
+		        	<td>Samba Port Scan</td>
+		        	<td>sambaAD 주요 포트를 스캔합니다.</td>
+		        </tr>
+		        
+		        <tr>
+		        	<td>SMB Anonymous Login</td>
+		        	<td>445번 포트를 통해 익명로그인을 시도합니다.</td>
+		        </tr>
+		        <tr>
+		        	<td>SMBbruteForce</td>
+		        	<td>무차별 패스워드 공격</td>
+		        </tr>
+                <!--
+                    {% if recent_exploits %}
+                        {% for exploit in recent_exploits %}
+                            <tr>
+                                <td>{{ exploit.name }}</td>
+                                <td>{{ exploit.description }}</td>
+              
+                            </tr>
+                        {% endfor %}
+                    {% else %}
+                        <tr>
+                            <td colspan="3">No exploit attempts available.</td>
+                        </tr>
+                    {% endif %}
+                  -->
+                  
+                  
+                </tbody>
+            </table>
+        </section>
+
+        <section id="last-table">
+            <h2 class="section-title">CVE</h2>
+            <a href="/cve" class="btn more">More</a>
+            <table class="cvede">
+                <thead>
+                    <tr>
+                        <th>CVE Name</th>
+                        <th>Severity</th>
+                        <th >CVE_Detail</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% if recent_cves %}
+                        {% for cve in recent_cves %}
+                            <tr>
+                                <td>{{ cve.CVE_name }}</td>
+                                <td>{{ cve.categories }}</td>
+                                <td>{{ cve.CVE_Detail |truncatechars:150 }}</td>
+                            </tr>
+                        {% endfor %}
+                    {% else %}
+                        <tr>
+                            <td colspan="2">No CVE information available.</td>
+                        </tr>
+                    {% endif %}
+                </tbody>
+            </table>
+        </section>
+    </main>
+{% endblock %}
+
+

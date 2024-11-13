@@ -1,0 +1,132 @@
+{% extends 'base.html' %}
+
+{% block title %}Scan Page{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <h1>CVE Results for IP: {{ current_ip }}</h1>
+
+        <!-- Part 1: CVE Risk Results from scan_results -->
+        <section class="cve-section">
+            <h2>CVE Risk Results</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>CVE Name</th>
+                        <th>Categories</th>
+                        <th>Score Data</th>
+                        <th>Link</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% if cve_risk_results %}
+                        {% for cve in cve_risk_results %}
+                        <tr>
+                            <td><a href="/cve_detail/{{ cve.CVE_name }}">{{ cve.CVE_name }}</a></td>
+                            <td>{{ cve.categories|join:", " }}</td>
+                            <td>
+                                Base Severity: {{ cve.Base_Severity }}<br>
+                                Impact Score: {{ cve.Impact_Score }}
+                            </td>
+                            <td><a href="https://nvd.nist.gov/vuln/detail/{{ cve.CVE_name }}" target="_blank">link</a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    {% else %}
+                        <tr>
+                            <td colspan="4">No CVE Risk Results available.</td>
+                        </tr>
+                    {% endif %}
+                </tbody>
+            </table>
+        </section>
+
+        <!-- Part 2: CVE Results from scan_results -->
+        <section class="cve-section">
+            <h2>CVE Results</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>CVE Name</th>
+                        <th>Categories</th>
+                        <th>Score Data</th>
+                        <th>Link</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% if cve_results %}
+                        {% for cve in cve_results %}
+                        <tr>
+                            <td><a href="/cve_detail/{{ cve.CVE_name }}">{{ cve.CVE_name }}</a></td>
+                            <td>{{ cve.categories|join:", " }}</td>
+                            <td>
+                                Base Severity: {{ cve.Base_Severity }}<br>
+                                Impact Score: {{ cve.Impact_Score }}
+                            </td>
+                            <td><a href="https://nvd.nist.gov/vuln/detail/{{ cve.CVE_name }}" target="_blank">link</i></a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    {% else %}
+                        <tr>
+                            <td colspan="4">No CVE Results available.</td>
+                        </tr>
+                    {% endif %}
+                </tbody>
+            </table>
+        </section>
+
+        <!-- Part 3: All CVE Records from cve_db -->
+        <section class="cve-section">
+            <h2>All CVE Records</h2>
+            <p>Total CVE Records: {{ total_cve_count }}</p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>CVE Name</th>
+                        <th>Categories</th>
+                        <th>Score Data</th>
+                        <th>Link</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% if paginated_cve_records %}
+                        {% for cve in paginated_cve_records %}
+                        <tr>
+                            <td><a href="/cve_detail/{{ cve.CVE_name }}">{{ cve.CVE_name }}</a></td>
+                            <td>{{ cve.categories|join:", " }}</td>
+                            <td>
+                                Base Severity: {{ cve.Base_Severity }}<br>
+                                Impact Score: {{ cve.Impact_Score }}
+                            </td>
+                            <td><a href="https://nvd.nist.gov/vuln/detail/{{ cve.CVE_name }}" target="_blank">link</i></a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    {% else %}
+                        <tr>
+                            <td colspan="4">No CVE Records available.</td>
+                        </tr>
+                    {% endif %}
+                </tbody>
+            </table>
+            <div class="pagination">
+                {% if previous_page %}
+                    <a href="?page=1">&lt;&lt;</a>
+                    <a href="?page={{ previous_page }}">&lt;</a>
+                {% endif %}
+                {% for page_num in page_range|slice:"0:5" %}
+                    {% if page_num == current_page %}
+                        <strong>{{ page_num }}</strong>
+                    {% else %}
+                        <a href="?page={{ page_num }}">{{ page_num }}</a>
+                    {% endif %}
+                {% endfor %}
+                {% if next_page %}
+                    <a href="?page={{ next_page }}">&gt;</a>
+                    <a href="?page={{ total_pages }}">&gt;&gt;</a>
+                {% endif %}
+            </div>
+        </section>
+    </div>
+{% endblock %}

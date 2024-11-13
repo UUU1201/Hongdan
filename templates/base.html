@@ -1,0 +1,48 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+    <script src="{% static 'scripts.js' %}"></script>
+    <title>{% block title %}My Site{% endblock %}</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Noto+Sans+KR:wght@400;700&family=Roboto+Slab:wght@400;700&display=swap">
+</head>
+<body>
+    <!-- 알림 배너 -->
+    <div id="notification-banner" class="notification-banner hidden">
+        <span id="notification-message"></span>
+        <button onclick="closeNotification()" class="close-button">X</button>
+    </div>
+
+    <header>
+    	<div class="headerWrap">
+        	<div class="logo"> <a href="/dashboard"><p>ADSentinel</p></a></div>
+		<nav>
+		    <ul>
+		        <li><a href="/scan">SCAN</a></li>
+		        <li><a href="/exploit">EXPLOIT</a></li>
+		        <li><a href="/red_flag">Red Flag</a></li>
+		        <li><a href="/cve">CVE</a></li>
+		        <li><a href="/reports">Reports</a></li>
+		    </ul>
+		</nav>
+        <div>
+    </header>
+
+    <main>
+        {% block content %}
+        {% endblock %}
+    </main>
+ 
+    <footer>
+        <p style="color:#444">HONGDAN</p>
+    </footer>
+    
+    <!-- CSRF Token for AJAX -->
+    <script>
+        window.CSRF_TOKEN = '{{ csrf_token }}';
+    </script>
+</body>
+</html>
+
